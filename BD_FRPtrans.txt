@@ -1,0 +1,127 @@
+
+CREATE TABLE agenda_veiculo
+(
+    id serial NOT NULL,
+    veiculo integer,
+    data_agenda date,
+    status character varying(50) ,
+    CONSTRAINT pk_agenda_veiculo PRIMARY KEY (id),
+    CONSTRAINT fk_veiculo_agenda FOREIGN KEY (veiculo) REFERENCES veiculo (id) 
+);
+
+
+CREATE TABLE agenda_veiculo_viagem_ordem_servico
+(
+    id serial NOT NULL,
+    agenda_veiculo integer,
+    ordem_servico integer,
+    status character varying(15) ,
+    CONSTRAINT pk_agenda_veiculo_viagem_ordem_servico PRIMARY KEY (id),
+    CONSTRAINT fk_agenda_veiculo_viagem FOREIGN KEY (agenda_veiculo) REFERENCES agenda_veiculo (id), 
+       
+    CONSTRAINT fk_ordem_servico_viagem FOREIGN KEY (ordem_servico)
+        REFERENCES ordem_servico (id) 
+);
+
+
+CREATE TABLE cliente
+(
+    id serial NOT NULL,
+    cpf character varying(50),
+    nome character varying(50),
+    rg character varying(50),
+    celular character varying(50),
+    endereco character varying(50),
+    login character varying(50),
+    senha character varying(50),
+    data_nasc character varying(50),
+    CONSTRAINT pk_cliente PRIMARY KEY (id)
+);
+
+CREATE TABLE endereco_destino
+(
+    id serial NOT NULL,
+    cep character varying(50),
+    rua character varying(50),
+    bairro character varying(50),
+    cidade character varying(50),
+    numero integer,
+    CONSTRAINT pk_endereco_destino PRIMARY KEY (id)
+);
+
+CREATE TABLE endereco_origem
+(
+    id serial NOT NULL,
+    cep character varying(50,
+    rua character varying(50),
+    bairro character varying(50),
+    cidade character varying(50),
+    numero integer,
+    CONSTRAINT pk_endereco_origem PRIMARY KEY (id)
+);
+
+
+
+CREATE TABLE ordem_servico
+(
+    id serial NOT NULL,
+    cliente integer,
+    veiculo integer,
+    data_partida character varying(50),
+    endereco_origem integer,
+    endereco_destino integer,
+    valor_viagem numeric(10, 5),
+    dimensao_pacote integer,
+    km_percorrido numeric(10, 5),
+    status character varying(10),
+    CONSTRAINT pk_ordem_servico PRIMARY KEY (id),
+    CONSTRAINT fk_ordem_servico_id_cliente FOREIGN KEY (cliente)
+    REFERENCES cliente (id),
+    CONSTRAINT fk_ordem_servico_id_endereco_destino FOREIGN KEY (endereco_destino)
+    REFERENCES endereco_destino (id),
+    CONSTRAINT fk_ordem_servico_id_endereco_origem FOREIGN KEY (endereco_origem)
+    REFERENCES endereco_origem (id),
+    CONSTRAINT fk_ordem_servico_id_veiculo FOREIGN KEY (veiculo)
+    REFERENCES veiculo (id)
+);
+
+
+
+CREATE TABLE pacote
+(
+    id serial NOT NULL,
+    comprimento numeric(10, 5),
+    altura numeric(10, 5),
+    largura numeric(10, 5),
+    tipo character varying(50),
+    peso numeric(10, 3),
+    metros_cubicos numeric(10, 5),
+    CONSTRAINT pk_pacote PRIMARY KEY (id)
+);
+
+CREATE TABLE usuario
+(
+    id serial NOT NULL DEFAULT,
+    login character varying(50),
+    senha character varying(50),
+    perfil character varying(50),
+    nome character varying(50),
+    cnh character varying(50),
+    CONSTRAINT pk_usuario PRIMARY KEY (id)
+);
+
+
+CREATE TABLE veiculo
+(
+    id serial NOT NULL,
+    marca character varying(50),
+    modelo character varying(50),
+    cor character varying(50),
+    placa character varying(50),
+    status character varying(50),
+    ano character varying(50),
+    tipo character varying(50),
+    CONSTRAINT pk_veiculo PRIMARY KEY (id)
+);
+
+
